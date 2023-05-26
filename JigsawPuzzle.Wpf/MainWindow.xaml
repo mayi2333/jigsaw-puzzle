@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="创建房间" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartService_Click"/>
+        <Button Content="加入房间" HorizontalAlignment="Left" Margin="134,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="JoinGame_Click"/>
+
     </Grid>
 </Window>
