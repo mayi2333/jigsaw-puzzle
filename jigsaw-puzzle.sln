@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JigsawPuzzle.Console", "JigsawPuzzle.Console\JigsawPuzzle.Console.csproj", "{C86270F3-4A95-4CFD-BD2A-492ECC36765C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JigsawPuzzle.Core", "JigsawPuzzle.Core\JigsawPuzzle.Core.csproj", "{B3B0AB36-5A48-49F7-8F0B-EC8B33EAFC3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C86270F3-4A95-4CFD-BD2A-492ECC36765C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C86270F3-4A95-4CFD-BD2A-492ECC36765C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C86270F3-4A95-4CFD-BD2A-492ECC36765C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C86270F3-4A95-4CFD-BD2A-492ECC36765C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B0AB36-5A48-49F7-8F0B-EC8B33EAFC3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B0AB36-5A48-49F7-8F0B-EC8B33EAFC3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B0AB36-5A48-49F7-8F0B-EC8B33EAFC3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B0AB36-5A48-49F7-8F0B-EC8B33EAFC3C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAD5D461-E1C6-47BA-8F65-F63FFB8B956D}
+	EndGlobalSection
+EndGlobal
