@@ -9,15 +9,15 @@ namespace JigsawPuzzle.Core
         /// <summary>
         /// 地图初始化事件
         /// </summary>
-        public EventHandler<int[,]>? InitMapAfter;
+        public EventHandler<int[,]> InitMapAfter = null;
         /// <summary>
         /// 移动事件
         /// </summary>
-        public EventHandler<Tuple<CoordinatePoint, CoordinatePoint>>? MoveEvent;
+        public EventHandler<Tuple<CoordinatePoint, CoordinatePoint>> MoveEvent = null;
         /// <summary>
         /// 游戏结束事件
         /// </summary>
-        public EventHandler? GameOverEvent;
+        public EventHandler GameOverEvent = null;
         #endregion
         private bool _gameOver = true;
         private int _mapSize;
