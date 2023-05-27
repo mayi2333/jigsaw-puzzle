@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoordinatePoint.cs" />
+    <Compile Include="EventBus.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="OperationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,21 +5,6 @@ namespace JigsawPuzzle.Core
 {
     public class Game
     {
-        #region 事件
-        /// <summary>
-        /// 地图初始化事件
-        /// </summary>
-        public EventHandler<int[,]> InitMapAfter = null;
-        /// <summary>
-        /// 移动事件
-        /// </summary>
-        //public EventHandler<> MoveEvent = null;
-        public EventHandler<Tuple<int, int[,]>> MoveEvent = null;
-        /// <summary>
-        /// 游戏结束事件
-        /// </summary>
-        public EventHandler GameOverEvent = null;
-        #endregion
         private bool _gameOver = true;
         public bool IsGameOver { get { return _gameOver; } }
         private int _mapSize;
@@ -81,7 +66,7 @@ namespace JigsawPuzzle.Core
                 }
             }
             _currentPoint = new CoordinatePoint(0, 0, 0);
-            InitMapAfter?.Invoke(null, _map);
+            EventBus.InitMapAfter?.Invoke(null, _map);
             _gameOver = false;
         }
         /// <summary>
@@ -128,7 +113,7 @@ namespace JigsawPuzzle.Core
             _currentPoint.Value = value;
             //var moveEventArg = new Tuple<CoordinatePoint, CoordinatePoint>(nextPoint, _currentPoint);
             _currentPoint = nextPoint;
-            MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
+            EventBus.MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
             GameOverJudging();
         }
         /// <summary>
@@ -151,7 +136,7 @@ namespace JigsawPuzzle.Core
                     }
                 }
             }
-            GameOverEvent?.Invoke(null, EventArgs.Empty);
+            EventBus.GameOverEvent?.Invoke(null, EventArgs.Empty);
             _gameOver = true;
         }
         public void ConsoleWrite()

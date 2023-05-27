@@ -43,6 +43,12 @@ namespace JigsawPuzzle.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            //绑定本机游戏地图初始化事件
+            EventBus.InitMapAfter += NativeGameScreenRedraw;
+            //绑定本机游戏移动事件
+            EventBus.MoveEvent += NativeGameScreenRedraw;
+            //绑定本机游戏结束事件
+            EventBus.GameOverEvent += NativeGameOver;
         }
 
         /// <summary>
@@ -101,7 +107,7 @@ namespace JigsawPuzzle.Wpf
         /// <param name="e"></param>
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-            if (gridImageList == null && gridImageList.Count == 0)
+            if (gridImageList == null || gridImageList.Count == 0)
             {
                 MessageBox.Show("请选择游戏图片");
                 return;
@@ -112,12 +118,6 @@ namespace JigsawPuzzle.Wpf
                 return;
             }
             nativeGame = new Game();
-            //绑定本机游戏地图初始化事件
-            nativeGame.InitMapAfter += NativeGameScreenRedraw;
-            //绑定本机游戏移动事件
-            nativeGame.MoveEvent += NativeGameScreenRedraw;
-            //绑定本机游戏结束事件
-            nativeGame.GameOverEvent += NativeGameOver;
             nativeGame.InitMap();
         }
 
