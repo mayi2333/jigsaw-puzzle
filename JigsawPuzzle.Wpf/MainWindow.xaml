@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="拼图游戏" Height="600" Width="850" KeyDown="MainWindows_Keydown">
     <Grid>
-        <Button Content="创建房间" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartService_Click"/>
-        <Button Content="加入房间" HorizontalAlignment="Left" Margin="134,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="JoinGame_Click"/>
-        <Button Content="开始" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartGame_Click"/>
-        <Button Content="准备" HorizontalAlignment="Left" Margin="354,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="Ready_Click"/>
-        <Button Content="选择图片" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="SelectImg_Click"/>
+        <Button x:Name="btnStartService" Content="创建房间" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartService_Click"/>
+        <Button x:Name="btnJoinGame" Content="加入房间" HorizontalAlignment="Left" Margin="134,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="JoinGame_Click"/>
+        <Button x:Name="btnStartGame" Content="开始" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartGame_Click"/>
+        <Button x:Name="btnReady" Content="准备" HorizontalAlignment="Left" Margin="354,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="Ready_Click"/>
+        <Button x:Name="btnSelectImg" Content="选择图片" HorizontalAlignment="Left" Margin="464,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="SelectImg_Click"/>
         <Image x:Name="nativeScreenImg" HorizontalAlignment="Left"  Width="500" Height="500" Margin="26,60,0,0" VerticalAlignment="Top"/>
         <Image x:Name="previewImg" HorizontalAlignment="Left" Width="250" Height="250" Margin="576,24,0,0" VerticalAlignment="Top" />
         <Image x:Name="remoteScreenImg" HorizontalAlignment="Left" Width="250" Height="250" Margin="574,308,0,0" VerticalAlignment="Top" />

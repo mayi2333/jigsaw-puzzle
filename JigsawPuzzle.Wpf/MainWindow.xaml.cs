@@ -61,6 +61,10 @@ namespace JigsawPuzzle.Wpf
                 //终结点
                 host.AddServiceEndpoint(typeof(IGameService), tcpBinding, "net.tcp://127.0.0.1:9999/GameService");
                 host.Open();
+                MessageBox.Show("房间创建成功");
+                btnJoinGame.IsEnabled = false;
+                btnSelectImg.IsEnabled = false;
+                btnReady.IsEnabled = false;
                 //if (host.Description.Behaviors.Find<System.ServiceModel.Description.ServiceMetadataBehavior>() == null)
                 //{
                 //    //行为
@@ -74,6 +78,10 @@ namespace JigsawPuzzle.Wpf
                 //    //启动
                 //    Host.Open();
                 //}
+            }
+            else
+            {
+                MessageBox.Show("请勿重复创建房间");
             }
         }
         /// <summary>
@@ -96,6 +104,11 @@ namespace JigsawPuzzle.Wpf
             if (gridImageList == null && gridImageList.Count == 0)
             {
                 MessageBox.Show("请选择游戏图片");
+                return;
+            }
+            if (nativeGame != null && !nativeGame.IsGameOver)
+            {
+                MessageBox.Show("游戏已经开始,请用键盘上下左右键操控");
                 return;
             }
             nativeGame = new Game();

@@ -21,6 +21,7 @@ namespace JigsawPuzzle.Core
         public EventHandler GameOverEvent = null;
         #endregion
         private bool _gameOver = true;
+        public bool IsGameOver { get { return _gameOver; } }
         private int _mapSize;
         private int[,] _map;
         private int _step = 0;
