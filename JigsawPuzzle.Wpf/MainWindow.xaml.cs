@@ -91,7 +91,7 @@ namespace JigsawPuzzle.Wpf
         /// <param name="e"></param>
         private void JoinGame_Click(object sender, RoutedEventArgs e)
         {
-            
+            new WCFGameService.GameServiceClient().GetData(1);
         }
 
         /// <summary>
