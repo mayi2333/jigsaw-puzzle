@@ -1,4 +1,6 @@
-﻿using JigsawPuzzle.WCF;
+﻿using JigsawPuzzle.Core;
+using JigsawPuzzle.WCF;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,21 @@ namespace JigsawPuzzle.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 游戏服务主机
+        /// </summary>
         ServiceHost host;
+        /// <summary>
+        /// 本地游戏实例
+        /// </summary>
+        Game nativeGame;
+        /// <summary>
+        /// 远程联机游戏实例
+        /// </summary>
+        Game remoteGame;
+
+        List<System.Drawing.Image> gridImageList;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -68,6 +84,50 @@ namespace JigsawPuzzle.Wpf
         private void JoinGame_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        /// <summary>
+        /// 开始游戏
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartGame_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 准备
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Ready_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 选择图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectImg_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;//该值确定是否可以选择多个文件
+            dialog.Title = "请选择游戏图片";
+            dialog.Filter = "图片文件(*.*)|*.*";
+            if (dialog.ShowDialog().Value == true)
+            {
+                var img = ImageUtil.LoadImgByFilePath(dialog.FileName);
+                if (img == null)
+                {
+                    MessageBox.Show("请选择宽高大于500的图片");
+                    return;
+                }
+                gridImageList = img.ToGridImages();
+                previewImg.Source = img.ToBitmapImage();
+            }
         }
     }
 }

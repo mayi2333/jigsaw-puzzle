@@ -13,7 +13,8 @@ namespace JigsawPuzzle.Core
         /// <summary>
         /// 移动事件
         /// </summary>
-        public EventHandler<Tuple<CoordinatePoint, CoordinatePoint>> MoveEvent = null;
+        //public EventHandler<> MoveEvent = null;
+        public EventHandler<Tuple<int, int[,]>> MoveEvent = null;
         /// <summary>
         /// 游戏结束事件
         /// </summary>
@@ -124,9 +125,9 @@ namespace JigsawPuzzle.Core
             _map[nextPoint.X, nextPoint.Y] = nextPoint.Value;
             _map[_currentPoint.X, _currentPoint.Y] = value;
             _currentPoint.Value = value;
-            var moveEventArg = new Tuple<CoordinatePoint, CoordinatePoint>(nextPoint, _currentPoint);
+            //var moveEventArg = new Tuple<CoordinatePoint, CoordinatePoint>(nextPoint, _currentPoint);
             _currentPoint = nextPoint;
-            MoveEvent?.Invoke(null, moveEventArg);
+            MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
             GameOverJudging();
         }
         /// <summary>
