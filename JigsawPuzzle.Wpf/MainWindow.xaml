@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JigsawPuzzle.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="850">
+        Title="拼图游戏" Height="600" Width="850" KeyDown="MainWindows_Keydown">
     <Grid>
         <Button Content="创建房间" HorizontalAlignment="Left" Margin="24,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="StartService_Click"/>
         <Button Content="加入房间" HorizontalAlignment="Left" Margin="134,10,0,0" VerticalAlignment="Top" Height="28" Width="90" Click="JoinGame_Click"/>

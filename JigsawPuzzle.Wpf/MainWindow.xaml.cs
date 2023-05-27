@@ -93,7 +93,19 @@ namespace JigsawPuzzle.Wpf
         /// <param name="e"></param>
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-
+            if (gridImageList == null && gridImageList.Count == 0)
+            {
+                MessageBox.Show("请选择游戏图片");
+                return;
+            }
+            nativeGame = new Game();
+            //绑定本机游戏地图初始化事件
+            nativeGame.InitMapAfter += NativeGameScreenRedraw;
+            //绑定本机游戏移动事件
+            nativeGame.MoveEvent += NativeGameScreenRedraw;
+            //绑定本机游戏结束事件
+            nativeGame.GameOverEvent += NativeGameOver;
+            nativeGame.InitMap();
         }
 
         /// <summary>
@@ -128,6 +140,50 @@ namespace JigsawPuzzle.Wpf
                 gridImageList = img.ToGridImages();
                 previewImg.Source = img.ToBitmapImage();
             }
+        }
+        private void MainWindows_Keydown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Up:
+                    nativeGame?.Move(OperationType.Up);
+                    break;
+                case Key.Down:
+                    nativeGame?.Move(OperationType.Down);
+                    break;
+                case Key.Left:
+                    nativeGame?.Move(OperationType.Left);
+                    break;
+                case Key.Right:
+                    nativeGame?.Move(OperationType.Right);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 本机游戏地图初始化事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="map"></param>
+        private void NativeGameScreenRedraw(object sender, int[,] map)
+        {
+            nativeScreenImg.Source = gridImageList.GridToBitmapImage(map);
+        }
+        /// <summary>
+        /// 本机游戏地图初始化事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="map"></param>
+        private void NativeGameScreenRedraw(object sender, Tuple<int, int[,]> e)
+        {
+            nativeScreenImg.Source = gridImageList.GridToBitmapImage(e.Item2);
+        }
+
+        private void NativeGameOver(object sender, EventArgs e)
+        {
+            MessageBox.Show("你赢了");
         }
     }
 }

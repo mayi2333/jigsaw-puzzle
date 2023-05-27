@@ -59,7 +59,7 @@ namespace JigsawPuzzle.Wpf
                     {
                         var rectangle = new Rectangle(j * size, i * size, size, size);
                         imageFactory.Load(image);
-                        images.Add(imageFactory.Crop(rectangle).Image);
+                        images.Add((Image)imageFactory.Crop(rectangle).Image.Clone());
                     }
                 }
                 using (Graphics g = Graphics.FromImage(images[0]))
@@ -83,7 +83,7 @@ namespace JigsawPuzzle.Wpf
             Graphics g1 = Graphics.FromImage(bitMap);
             // 将画布涂为白色(底部颜色可自行设置)
             g1.FillRectangle(Brushes.White, new Rectangle(0, 0, 500, 500));
-            int mapLength = map.Length;
+            int mapLength = map.GetLength(0);
             int nextX = 0;
             int nextY = 0;
             for (int y = 0; y < mapLength; y++)
@@ -96,6 +96,7 @@ namespace JigsawPuzzle.Wpf
                     nextX += image.Width;
                     currentHeight = image.Height;
                 }
+                nextX = 0;
                 nextY += currentHeight;
             }
             return bitMap.ToBitmapImage();
@@ -113,11 +114,11 @@ namespace JigsawPuzzle.Wpf
             Rectangle rectangle;
             if (width > height)
             {
-                rectangle = new Rectangle((width - height) / 2, 0, width, height);
+                rectangle = new Rectangle((width - height) / 2, 0, height, height);
             }
             else
             {
-                rectangle = new Rectangle(0, (height - width) / 2, width, height);
+                rectangle = new Rectangle(0, (height - width) / 2, height, height);
             }
             return image.Crop(rectangle).Resize(new Size(size, size));
         }
@@ -134,9 +135,9 @@ namespace JigsawPuzzle.Wpf
                 try
                 {
                     // 加载，调整大小，设置格式和质量并保存图像。
-                    return imageFactory.Load(path)
+                    return (Image)imageFactory.Load(path)
                                        .CropAndResize(size)
-                                       .Image;
+                                       .Image.Clone();
                 }
                 catch
                 {
