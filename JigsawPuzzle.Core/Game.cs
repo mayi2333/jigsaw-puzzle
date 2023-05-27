@@ -34,64 +34,95 @@ namespace JigsawPuzzle.Core
             _gameOver = false;
         }
         /// <summary>
-        /// 初始化地图
+        /// 初始化地图(此版本初始化算法有问题)
         /// </summary>
+        //public void InitMap()
+        //{
+        //    _step = 0;
+        //    //用地图大小计算格子数
+        //    int cellCount = _mapSize * _mapSize;
+        //    List<int> cells = new List<int>();
+        //    //第一个固定值为0所以从1开始
+        //    for (int i = 1; i < cellCount; i++)
+        //    {
+        //        cells.Add(i);
+        //    }
+        //    //填充地图
+        //    _map[0,0] = 0;
+        //    Random rd = new Random(DateTime.Now.Millisecond);
+        //    for (int y = 1; y < _mapSize; y++)
+        //    {
+        //        int rdIndex = rd.Next(0, cells.Count - 1);
+        //        _map[0, y] = cells[rdIndex];
+        //        cells.RemoveAt(rdIndex);
+        //    }
+        //    for (int x = 1; x < _mapSize; x++)
+        //    {
+        //        for (int y = 0; y < _mapSize; y++)
+        //        {
+        //            int rdIndex = rd.Next(0, cells.Count - 1);
+        //            _map[x, y] = cells[rdIndex];
+        //            cells.RemoveAt(rdIndex);
+        //        }
+        //    }
+        //    _currentPoint = new CoordinatePoint(0, 0, 0);
+        //    EventBus.InitMapAfter?.Invoke(null, _map);
+        //    _gameOver = false;
+        //}
+
         public void InitMap()
         {
-            _step = 0;
-            //用地图大小计算格子数
-            int cellCount = _mapSize * _mapSize;
-            List<int> cells = new List<int>();
-            //第一个固定值为0所以从1开始
-            for (int i = 1; i < cellCount; i++)
+            int i = 0;
+            for (int y = 0; y < _mapSize; y++)
             {
-                cells.Add(i);
-            }
-            //填充地图
-            _map[0,0] = 0;
-            Random rd = new Random(DateTime.Now.Millisecond);
-            for (int y = 1; y < _mapSize; y++)
-            {
-                int rdIndex = rd.Next(0, cells.Count - 1);
-                _map[0, y] = cells[rdIndex];
-                cells.RemoveAt(rdIndex);
-            }
-            for (int x = 1; x < _mapSize; x++)
-            {
-                for (int y = 0; y < _mapSize; y++)
+                for (int x = 0; x < _mapSize; x++)
                 {
-                    int rdIndex = rd.Next(0, cells.Count - 1);
-                    _map[x, y] = cells[rdIndex];
-                    cells.RemoveAt(rdIndex);
+                    _map[x, y] = i;
+                    i++;
                 }
             }
             _currentPoint = new CoordinatePoint(0, 0, 0);
+            RandomMap(i * 10);
+            _step = 0;
             EventBus.InitMapAfter?.Invoke(null, _map);
             _gameOver = false;
+        }
+        private void RandomMap(int count)
+        {
+            Random rd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < count; i++)
+            {
+                Move((OperationType)rd.Next(0, 3), true);
+            }
+            for (int i = 1; i < _mapSize; i++)
+            {
+                Move(OperationType.Right, true);
+                Move(OperationType.Down, true);
+            }
         }
         /// <summary>
         /// 移动操作
         /// </summary>
         /// <param name="operation"></param>
-        public void Move(OperationType operation)
+        public void Move(OperationType operation, bool isInit=false)
         {
-            if (_gameOver)
+            if (!isInit && _gameOver)
             {
                 return;
             }
             switch (operation)
             {
                 case OperationType.Up:
-                    MoveToNext(_currentPoint.X, _currentPoint.Y + 1);
+                    MoveToNext(_currentPoint.X, _currentPoint.Y + 1, isInit);
                     break;
                 case OperationType.Down:
-                    MoveToNext(_currentPoint.X, _currentPoint.Y - 1);
+                    MoveToNext(_currentPoint.X, _currentPoint.Y - 1, isInit);
                     break;
                 case OperationType.Left:
-                    MoveToNext(_currentPoint.X + 1, _currentPoint.Y);
+                    MoveToNext(_currentPoint.X + 1, _currentPoint.Y, isInit);
                     break;
                 case OperationType.Right:
-                    MoveToNext(_currentPoint.X - 1, _currentPoint.Y);
+                    MoveToNext(_currentPoint.X - 1, _currentPoint.Y, isInit);
                     break;
                 default: throw new ArgumentOutOfRangeException(nameof(operation));
             }
@@ -99,7 +130,7 @@ namespace JigsawPuzzle.Core
         /// <summary>
         /// 当前点移动到下一个点
         /// </summary>
-        private void MoveToNext(int x, int y)
+        private void MoveToNext(int x, int y, bool isInit)
         {
             if (x < 0 || x >= _mapSize || y < 0 || y >= _mapSize)
             {
@@ -113,8 +144,11 @@ namespace JigsawPuzzle.Core
             _currentPoint.Value = value;
             //var moveEventArg = new Tuple<CoordinatePoint, CoordinatePoint>(nextPoint, _currentPoint);
             _currentPoint = nextPoint;
-            EventBus.MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
-            GameOverJudging();
+            if (!isInit)
+            { 
+                EventBus.MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
+                GameOverJudging();
+            }
         }
         /// <summary>
         /// 判定游戏结束
