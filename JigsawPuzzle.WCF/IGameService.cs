@@ -1,5 +1,7 @@
-﻿using System;
+﻿using JigsawPuzzle.Core;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -8,19 +10,43 @@ using System.Text;
 namespace JigsawPuzzle.WCF
 {
     // 注意: 使用“重构”菜单上的“重命名”命令，可以同时更改代码和配置文件中的接口名“IService1”。
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IGameCallback))]
     public interface IGameService
     {
+        /// <summary>
+        /// 联机玩家加入游戏房间
+        /// </summary>
+        /// <returns></returns>
         [OperationContract]
-        string GetData(int value);
-
-        // TODO: 在此添加您的服务操作
+        Image JoinGame();
+        /// <summary>
+        /// 联机玩家准备游戏
+        /// </summary>
+        [OperationContract(IsOneWay = true)]
+        void ReadyGame();
+        /// <summary>
+        /// 发送联机玩家操作信息到服务端
+        /// </summary>
+        /// <param name="type"></param>
+        [OperationContract(IsOneWay = true)]
+        void Move(int type);
     }
 
-    public interface IClient
+    public interface IGameCallback
     {
-        [OperationContract]
-        string GetData(int value);
+        /// <summary>
+        /// 服务端开始游戏发送游戏数据到远端
+        /// </summary>
+        /// <param name="map"></param>
+        /// <returns></returns>
+        [OperationContract(IsOneWay = true)]
+        void StartGame(byte[] map);
+        /// <summary>
+        /// 发送服务端玩家操作信息到联机端
+        /// </summary>
+        /// <param name="type"></param>
+        [OperationContract(IsOneWay = true)]
+        void Move(int type);
     }
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。
     // 可以将 XSD 文件添加到项目中。在生成项目后，可以通过命名空间“JigsawPuzzle.WCF.ContractType”直接使用其中定义的数据类型。

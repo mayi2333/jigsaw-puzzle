@@ -12,14 +12,27 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WCFGameService.IGameService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WCFGameService.IGameService", CallbackContract=typeof(JigsawPuzzle.Wpf.WCFGameService.IGameServiceCallback))]
     public interface IGameService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetData", ReplyAction="http://tempuri.org/IGameService/GetDataResponse")]
-        string GetData(int value);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
+        System.Drawing.Image JoinGame();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/GetData", ReplyAction="http://tempuri.org/IGameService/GetDataResponse")]
-        System.Threading.Tasks.Task<string> GetDataAsync(int value);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
+        System.Threading.Tasks.Task<System.Drawing.Image> JoinGameAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/ReadyGame")]
+        void ReadyGame();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/ReadyGame")]
+        System.Threading.Tasks.Task ReadyGameAsync();
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IGameServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
+        string StartGame();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -28,33 +41,42 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class GameServiceClient : System.ServiceModel.ClientBase<JigsawPuzzle.Wpf.WCFGameService.IGameService>, JigsawPuzzle.Wpf.WCFGameService.IGameService {
+    public partial class GameServiceClient : System.ServiceModel.DuplexClientBase<JigsawPuzzle.Wpf.WCFGameService.IGameService>, JigsawPuzzle.Wpf.WCFGameService.IGameService {
         
-        public GameServiceClient() {
+        public GameServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public GameServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public GameServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public GameServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public GameServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public GameServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public GameServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public GameServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public GameServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
-        public string GetData(int value) {
-            return base.Channel.GetData(value);
+        public System.Drawing.Image JoinGame() {
+            return base.Channel.JoinGame();
         }
         
-        public System.Threading.Tasks.Task<string> GetDataAsync(int value) {
-            return base.Channel.GetDataAsync(value);
+        public System.Threading.Tasks.Task<System.Drawing.Image> JoinGameAsync() {
+            return base.Channel.JoinGameAsync();
+        }
+        
+        public void ReadyGame() {
+            base.Channel.ReadyGame();
+        }
+        
+        public System.Threading.Tasks.Task ReadyGameAsync() {
+            return base.Channel.ReadyGameAsync();
         }
     }
 }

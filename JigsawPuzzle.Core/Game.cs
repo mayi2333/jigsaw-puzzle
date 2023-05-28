@@ -5,28 +5,33 @@ namespace JigsawPuzzle.Core
 {
     public class Game
     {
+        private string _userName;
+        public string UserName { get { return _userName; } }
         private bool _gameOver = true;
         public bool IsGameOver { get { return _gameOver; } }
         private int _mapSize;
         private int[,] _map;
         private int _step = 0;
         private CoordinatePoint _currentPoint;
-        public Game()
+        public Game(string userName)
         {
+            _userName = userName;
             _mapSize = 3;
             _map = new int[_mapSize, _mapSize];
         }
-        public Game(int mapSize)
+        public Game(string userName, int mapSize)
         {
             if (mapSize > 9 && mapSize < 3)
             {
                 throw new ArgumentException("地图大小不能超过9格小于3格");
             }
+            _userName = userName;
             _mapSize = mapSize;
             _map = new int[_mapSize, _mapSize];
         }
-        public Game(int[,] map)
+        public Game(string userName, int[,] map)
         {
+            _userName = userName;
             _step = 0;
             _mapSize = map.GetLength(0);
             _map = map;
@@ -70,7 +75,7 @@ namespace JigsawPuzzle.Core
         //    _gameOver = false;
         //}
 
-        public void InitMap()
+        public int[,] InitMap()
         {
             int i = 0;
             for (int y = 0; y < _mapSize; y++)
@@ -84,8 +89,9 @@ namespace JigsawPuzzle.Core
             _currentPoint = new CoordinatePoint(0, 0, 0);
             RandomMap(i * 10);
             _step = 0;
-            EventBus.InitMapAfter?.Invoke(null, _map);
+            EventBus.InitMapAfter?.Invoke(UserName, _map);
             _gameOver = false;
+            return _map;
         }
         private void RandomMap(int count)
         {
@@ -146,7 +152,7 @@ namespace JigsawPuzzle.Core
             _currentPoint = nextPoint;
             if (!isInit)
             { 
-                EventBus.MoveEvent?.Invoke(null, new Tuple<int, int[,]>(_step, _map));
+                EventBus.MoveEvent?.Invoke(UserName, new Tuple<int, int[,]>(_step, _map));
                 GameOverJudging();
             }
         }
@@ -170,7 +176,14 @@ namespace JigsawPuzzle.Core
                     }
                 }
             }
-            EventBus.GameOverEvent?.Invoke(null, EventArgs.Empty);
+            EventBus.GameOverEvent?.Invoke(UserName, EventArgs.Empty);
+            _gameOver = true;
+        }
+        /// <summary>
+        /// 结束游戏
+        /// </summary>
+        public void GameOver()
+        {
             _gameOver = true;
         }
         public void ConsoleWrite()

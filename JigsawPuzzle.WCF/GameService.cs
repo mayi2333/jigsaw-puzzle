@@ -1,5 +1,7 @@
-﻿using System;
+﻿using JigsawPuzzle.Core;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -10,27 +12,31 @@ namespace JigsawPuzzle.WCF
     // 注意: 使用“重构”菜单上的“重命名”命令，可以同时更改代码和配置文件中的类名“Service1”。
     public class GameService : IGameService
     {
-        IClient client = null;
         public GameService()
         {
-            client = OperationContext.Current.GetCallbackChannel<IClient>();
+            GameContext.CallbackClient = OperationContext.Current.GetCallbackChannel<IGameCallback>();
         }
-        public string GetData(int value)
+        /// <summary>
+        /// 客户端加入服务端服务端返回游戏图片到客户端
+        /// </summary>
+        /// <returns></returns>
+        public Image JoinGame()
         {
-            return string.Format("You entered: {0}", value);
+            return GameContext.GameImg;
+        }
+        /// <summary>
+        /// 客户端准备游戏服务端标记客户端准备状态和广播准备事件
+        /// </summary>
+        public void ReadyGame()
+        {
+            GameContext.IsReady = true;
+            EventBus.ReadyEvent?.Invoke(null, null);
         }
 
-        //public CompositeType GetDataUsingDataContract(CompositeType composite)
-        //{
-        //    if (composite == null)
-        //    {
-        //        throw new ArgumentNullException("composite");
-        //    }
-        //    if (composite.BoolValue)
-        //    {
-        //        composite.StringValue += "Suffix";
-        //    }
-        //    return composite;
-        //}
+        public void Move(int type)
+        {
+            GameContext.RemoteGame.Move((OperationType)type);
+        }
     }
+
 }
