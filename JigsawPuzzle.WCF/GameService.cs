@@ -32,10 +32,13 @@ namespace JigsawPuzzle.WCF
             GameContext.IsReady = true;
             EventBus.ReadyEvent?.Invoke(null, null);
         }
-
-        public void Move(int type)
+        /// <summary>
+        /// 客户端玩家操作
+        /// </summary>
+        /// <param name="type"></param>
+        public void OnlineUserMove(OperationType type)
         {
-            GameContext.RemoteGame.Move((OperationType)type);
+            GameContext.RemoteGame.Move(type);
         }
     }
 

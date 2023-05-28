@@ -29,7 +29,7 @@ namespace JigsawPuzzle.WCF
         /// </summary>
         /// <param name="type"></param>
         [OperationContract(IsOneWay = true)]
-        void Move(int type);
+        void OnlineUserMove(OperationType type);
     }
 
     public interface IGameCallback
@@ -46,7 +46,7 @@ namespace JigsawPuzzle.WCF
         /// </summary>
         /// <param name="type"></param>
         [OperationContract(IsOneWay = true)]
-        void Move(int type);
+        void Move(OperationType type);
     }
     // 使用下面示例中说明的数据约定将复合类型添加到服务操作。
     // 可以将 XSD 文件添加到项目中。在生成项目后，可以通过命名空间“JigsawPuzzle.WCF.ContractType”直接使用其中定义的数据类型。

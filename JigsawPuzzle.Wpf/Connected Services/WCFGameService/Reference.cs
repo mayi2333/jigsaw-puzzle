@@ -26,13 +26,22 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/ReadyGame")]
         System.Threading.Tasks.Task ReadyGameAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/OnlineUserMove")]
+        void OnlineUserMove(JigsawPuzzle.Core.OperationType type);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/OnlineUserMove")]
+        System.Threading.Tasks.Task OnlineUserMoveAsync(JigsawPuzzle.Core.OperationType type);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IGameServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/StartGame", ReplyAction="http://tempuri.org/IGameService/StartGameResponse")]
-        string StartGame();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/StartGame")]
+        void StartGame(byte[] map);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/Move")]
+        void Move(JigsawPuzzle.Core.OperationType type);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -77,6 +86,14 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
         
         public System.Threading.Tasks.Task ReadyGameAsync() {
             return base.Channel.ReadyGameAsync();
+        }
+        
+        public void OnlineUserMove(JigsawPuzzle.Core.OperationType type) {
+            base.Channel.OnlineUserMove(type);
+        }
+        
+        public System.Threading.Tasks.Task OnlineUserMoveAsync(JigsawPuzzle.Core.OperationType type) {
+            return base.Channel.OnlineUserMoveAsync(type);
         }
     }
 }

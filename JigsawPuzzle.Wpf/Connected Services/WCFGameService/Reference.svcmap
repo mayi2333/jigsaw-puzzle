@@ -26,6 +26,7 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="71135a73-d9f8-4dbc-adc8-b8f44b3d9928" SourceId="1" SourceUrl="http://127.0.0.1:8733/GameService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="13793f40-ba09-4cd6-8797-789fef6bcc7c" SourceId="1" SourceUrl="http://127.0.0.1:8733/GameService/mex" />
     <MetadataFile FileName="System.Drawing.xsd" MetadataType="Schema" ID="9af01976-8d5f-41e2-9f51-bb1d27830054" SourceId="1" SourceUrl="http://127.0.0.1:8733/GameService/mex" />
+    <MetadataFile FileName="JigsawPuzzle.Core.xsd" MetadataType="Schema" ID="688a797d-9166-4159-a385-c8f3bbeeaeee" SourceId="1" SourceUrl="http://127.0.0.1:8733/GameService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
