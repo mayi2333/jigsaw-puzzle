@@ -7,7 +7,7 @@ namespace JigsawPuzzle.Console
     {
         static void Main(string[] args)
         {
-            var game = new Game(3);
+            var game = new Game("console", 3);
             game.InitMap();
             game.ConsoleWrite();
             System.Console.WriteLine("游戏开始");

@@ -105,6 +105,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\WCFGameService\JigsawPuzzle.Core.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\WCFGameService\service.wsdl" />
     <None Include="Connected Services\WCFGameService\service.xsd">
       <SubType>Designer</SubType>

@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.ServiceModel;
 using System.Text;
 
@@ -20,9 +22,14 @@ namespace JigsawPuzzle.WCF
         /// 客户端加入服务端服务端返回游戏图片到客户端
         /// </summary>
         /// <returns></returns>
-        public Image JoinGame()
+        public byte[] JoinGame()
         {
-            return GameContext.GameImg;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
+                f.Serialize(ms, GameContext.GameImg);
+                return ms.ToArray();
+            }
         }
         /// <summary>
         /// 客户端准备游戏服务端标记客户端准备状态和广播准备事件

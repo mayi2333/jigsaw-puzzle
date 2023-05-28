@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -91,13 +92,18 @@ namespace JigsawPuzzle.Wpf
         /// <param name="e"></param>
         private void JoinGame_Click(object sender, RoutedEventArgs e)
         {
-            if (serviceProxy == null)
+            if (serviceProxy == null || serviceProxy.State != CommunicationState.Opened)
             {
                 var callbackInstance = new InstanceContext(new GameCallback());
                 serviceProxy = new WCFGameService.GameServiceClient(callbackInstance);
-                if (serviceProxy.State == CommunicationState.Opened)
+                if (serviceProxy.State == CommunicationState.Created)
                 {
-                    GameContext.GameImg = serviceProxy.JoinGame();
+                    //byte[] img = serviceProxy.JoinGame();
+                    //using (MemoryStream ms = new MemoryStream(img))
+                    //{
+                    //    System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
+                    //    GameContext.GameImg = f.Deserialize(ms) as System.Drawing.Image;
+                    //}
                     GameContext.GridImageList = GameContext.GameImg.ToGridImages();
                     previewImg.Source = GameContext.GameImg.ToBitmapImage();
                     btnJoinGame.IsEnabled = false;
@@ -105,6 +111,10 @@ namespace JigsawPuzzle.Wpf
                     btnStartGame.IsEnabled = false;
                     btnStartService.IsEnabled = false;
                     MessageBox.Show("加入游戏成功，请准备游戏");
+                }
+                else
+                {
+                    MessageBox.Show("加入游戏失败");
                 }
             }
             else

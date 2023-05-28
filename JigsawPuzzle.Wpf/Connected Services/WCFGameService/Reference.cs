@@ -16,10 +16,10 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
     public interface IGameService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
-        System.Drawing.Image JoinGame();
+        byte[] JoinGame();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
-        System.Threading.Tasks.Task<System.Drawing.Image> JoinGameAsync();
+        System.Threading.Tasks.Task<byte[]> JoinGameAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/ReadyGame")]
         void ReadyGame();
@@ -72,11 +72,11 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public System.Drawing.Image JoinGame() {
+        public byte[] JoinGame() {
             return base.Channel.JoinGame();
         }
         
-        public System.Threading.Tasks.Task<System.Drawing.Image> JoinGameAsync() {
+        public System.Threading.Tasks.Task<byte[]> JoinGameAsync() {
             return base.Channel.JoinGameAsync();
         }
         

@@ -18,7 +18,7 @@ namespace JigsawPuzzle.WCF
         /// </summary>
         /// <returns></returns>
         [OperationContract]
-        Image JoinGame();
+        byte[] JoinGame();
         /// <summary>
         /// 联机玩家准备游戏
         /// </summary>

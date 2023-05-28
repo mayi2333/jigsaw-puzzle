@@ -51,9 +51,6 @@
     <Compile Include="GameService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\JigsawPuzzle.Core\JigsawPuzzle.Core.csproj">
       <Project>{2186D447-7B82-43B7-9D26-B76679AD53F6}</Project>
       <Name>JigsawPuzzle.Core</Name>

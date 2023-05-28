@@ -1,5 +1,5 @@
 ﻿using JigsawPuzzle.Core;
-using JigsawPuzzle.WCF;
+using JigsawPuzzle.Wpf.WCFGameService;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JigsawPuzzle.Wpf
 {
-    public class GameCallback : IGameCallback
+    public class GameCallback : IGameServiceCallback
     {
         public void StartGame(byte[] map)
         {
@@ -19,14 +19,14 @@ namespace JigsawPuzzle.Wpf
             {
                 System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
                 int[,] mapArray = f.Deserialize(ms) as int[,];
-                GameContext.RemoteGame = new Core.Game("remote", mapArray);
-                GameContext.NativeGame = new Game("native", mapArray);
+                WCF.GameContext.RemoteGame = new Core.Game("remote", mapArray);
+                WCF.GameContext.NativeGame = new Game("native", mapArray);
             }
-            GameContext.IsStartGame = true;
+            WCF.GameContext.IsStartGame = true;
         }
         public void Move(OperationType type)
         {
-            GameContext.RemoteGame.Move(type);
+            WCF.GameContext.RemoteGame.Move(type);
         }
     }
 }
