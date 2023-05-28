@@ -12,24 +12,31 @@ using System.Text;
 namespace JigsawPuzzle.WCF
 {
     // 注意: 使用“重构”菜单上的“重命名”命令，可以同时更改代码和配置文件中的类名“Service1”。
+    [ServiceBehavior(IncludeExceptionDetailInFaults = true, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class GameService : IGameService
     {
         public GameService()
         {
             GameContext.CallbackClient = OperationContext.Current.GetCallbackChannel<IGameCallback>();
         }
+        public string Test1()
+        {
+            return "ceshi";
+        }
         /// <summary>
         /// 客户端加入服务端服务端返回游戏图片到客户端
         /// </summary>
         /// <returns></returns>
-        public byte[] JoinGame()
+        public Bitmap JoinGame()
         {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
-                f.Serialize(ms, GameContext.GameImg);
-                return ms.ToArray();
-            }
+            return new Bitmap(GameContext.GameImg);
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
+            //    f.Serialize(ms, GameContext.GameImg);
+            //    string base64 = Convert.ToBase64String(ms.ToArray());
+            //    return base64;
+            //}
         }
         /// <summary>
         /// 客户端准备游戏服务端标记客户端准备状态和广播准备事件

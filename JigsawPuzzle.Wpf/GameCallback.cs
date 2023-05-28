@@ -13,6 +13,10 @@ namespace JigsawPuzzle.Wpf
 {
     public class GameCallback : IGameServiceCallback
     {
+        public string Test2()
+        {
+            return "ceshi2";
+        }
         public void StartGame(byte[] map)
         {
             using (MemoryStream ms = new MemoryStream(map))

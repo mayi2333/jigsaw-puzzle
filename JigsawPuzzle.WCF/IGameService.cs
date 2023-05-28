@@ -13,12 +13,15 @@ namespace JigsawPuzzle.WCF
     [ServiceContract(CallbackContract = typeof(IGameCallback))]
     public interface IGameService
     {
+        [OperationContract]
+        string Test1();
         /// <summary>
         /// 联机玩家加入游戏房间
         /// </summary>
         /// <returns></returns>
+        [ServiceKnownType(typeof(Bitmap))]
         [OperationContract]
-        byte[] JoinGame();
+        Bitmap JoinGame();
         /// <summary>
         /// 联机玩家准备游戏
         /// </summary>
@@ -34,6 +37,8 @@ namespace JigsawPuzzle.WCF
 
     public interface IGameCallback
     {
+        [OperationContract]
+        string Test2();
         /// <summary>
         /// 服务端开始游戏发送游戏数据到远端
         /// </summary>

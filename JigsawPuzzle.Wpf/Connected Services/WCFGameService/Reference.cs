@@ -15,11 +15,17 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WCFGameService.IGameService", CallbackContract=typeof(JigsawPuzzle.Wpf.WCFGameService.IGameServiceCallback))]
     public interface IGameService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
-        byte[] JoinGame();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/Test1", ReplyAction="http://tempuri.org/IGameService/Test1Response")]
+        string Test1();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/Test1", ReplyAction="http://tempuri.org/IGameService/Test1Response")]
+        System.Threading.Tasks.Task<string> Test1Async();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
-        System.Threading.Tasks.Task<byte[]> JoinGameAsync();
+        System.Drawing.Bitmap JoinGame();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/JoinGame", ReplyAction="http://tempuri.org/IGameService/JoinGameResponse")]
+        System.Threading.Tasks.Task<System.Drawing.Bitmap> JoinGameAsync();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/ReadyGame")]
         void ReadyGame();
@@ -36,6 +42,9 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IGameServiceCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/Test2", ReplyAction="http://tempuri.org/IGameService/Test2Response")]
+        string Test2();
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/StartGame")]
         void StartGame(byte[] map);
@@ -72,11 +81,19 @@ namespace JigsawPuzzle.Wpf.WCFGameService {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public byte[] JoinGame() {
+        public string Test1() {
+            return base.Channel.Test1();
+        }
+        
+        public System.Threading.Tasks.Task<string> Test1Async() {
+            return base.Channel.Test1Async();
+        }
+        
+        public System.Drawing.Bitmap JoinGame() {
             return base.Channel.JoinGame();
         }
         
-        public System.Threading.Tasks.Task<byte[]> JoinGameAsync() {
+        public System.Threading.Tasks.Task<System.Drawing.Bitmap> JoinGameAsync() {
             return base.Channel.JoinGameAsync();
         }
         

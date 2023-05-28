@@ -70,7 +70,14 @@ namespace JigsawPuzzle.Wpf
                 host = new ServiceHost(typeof(GameService));
 
                 //绑定
-                System.ServiceModel.Channels.Binding tcpBinding = new NetTcpBinding();
+                NetTcpBinding tcpBinding = new NetTcpBinding();
+                //设置 用于存储消息的缓冲区的 最大大小
+                tcpBinding.MaxBufferSize = 217736174;
+                //设置服务器 使用流式处理模式 传输消息
+                tcpBinding.TransferMode = TransferMode.Buffered;
+                //设置绑定可以处理的最大接受消息大小
+                tcpBinding.MaxReceivedMessageSize = 217736174;
+                tcpBinding.Security.Mode = SecurityMode.None;
                 //终结点
                 host.AddServiceEndpoint(typeof(IGameService), tcpBinding, "net.tcp://127.0.0.1:9999/GameService");
                 host.Open();
@@ -98,12 +105,14 @@ namespace JigsawPuzzle.Wpf
                 serviceProxy = new WCFGameService.GameServiceClient(callbackInstance);
                 if (serviceProxy.State == CommunicationState.Created)
                 {
-                    //byte[] img = serviceProxy.JoinGame();
-                    //using (MemoryStream ms = new MemoryStream(img))
+                    string test = serviceProxy.Test1();
+                    //string base64 = serviceProxy.JoinGame();
+                    //using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(base64)))
                     //{
                     //    System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
                     //    GameContext.GameImg = f.Deserialize(ms) as System.Drawing.Image;
                     //}
+                    GameContext.GameImg = serviceProxy.JoinGame();
                     GameContext.GridImageList = GameContext.GameImg.ToGridImages();
                     previewImg.Source = GameContext.GameImg.ToBitmapImage();
                     btnJoinGame.IsEnabled = false;
@@ -197,6 +206,7 @@ namespace JigsawPuzzle.Wpf
                 GameContext.GridImageList = img.ToGridImages();
                 previewImg.Source = img.ToBitmapImage();
                 GameContext.GameImg = img;
+                img.Save("C:\\Users\\mayi\\Desktop\\123.png");
             }
         }
         private void MainWindows_Keydown(object sender, KeyEventArgs e)
@@ -271,6 +281,10 @@ namespace JigsawPuzzle.Wpf
             {
                 remoteScreenImg.Source = GameContext.GridImageList.GridToBitmapImage(e.Item2);
             }
+        }
+        private void GameReadyEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("联机玩家已准备完毕");
         }
         /// <summary>
         /// 游戏结束事件

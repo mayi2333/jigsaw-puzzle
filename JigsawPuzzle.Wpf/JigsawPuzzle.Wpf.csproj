@@ -119,6 +119,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\System.Drawing.Bitmap.datasource" />
     <None Include="Properties\DataSources\System.Drawing.Image.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
