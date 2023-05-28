@@ -31,6 +31,10 @@ namespace JigsawPuzzle.WCF
         /// </summary>
         public static bool IsReady;
         /// <summary>
+        /// 游戏是否开始
+        /// </summary>
+        public static bool IsStartGame;
+        /// <summary>
         /// WCF回调
         /// </summary>
         public static IGameCallback CallbackClient;

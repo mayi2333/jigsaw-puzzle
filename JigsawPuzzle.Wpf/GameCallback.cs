@@ -22,6 +22,7 @@ namespace JigsawPuzzle.Wpf
                 GameContext.RemoteGame = new Core.Game("remote", mapArray);
                 GameContext.NativeGame = new Game("native", mapArray);
             }
+            GameContext.IsStartGame = true;
         }
         public void Move(OperationType type)
         {

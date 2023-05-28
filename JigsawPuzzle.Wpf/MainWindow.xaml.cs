@@ -41,14 +41,15 @@ namespace JigsawPuzzle.Wpf
         public MainWindow()
         {
             InitializeComponent();
-            //绑定本机游戏地图初始化事件
+            //绑定游戏地图初始化事件
             EventBus.InitMapAfter += GameScreenRedraw;
-            //绑定本机游戏移动事件
+            //绑定游戏移动事件
             EventBus.MoveEvent += GameScreenRedraw;
-            //绑定本机游戏结束事件
+            //绑定游戏结束事件
             EventBus.GameOverEvent += GameOver;
             //绑定加入游戏事件
             EventBus.JoinGameEvent += ClientJoinGameEvent;
+            GameContext.IsStartGame = false;
         }
 
         /// <summary>
@@ -138,6 +139,7 @@ namespace JigsawPuzzle.Wpf
                 f.Serialize(ms, map);
                 GameContext.CallbackClient.StartGame(ms.ToArray());
             }
+            GameContext.IsStartGame = true;
         }
 
         /// <summary>
@@ -189,27 +191,47 @@ namespace JigsawPuzzle.Wpf
         }
         private void MainWindows_Keydown(object sender, KeyEventArgs e)
         {
+            if (!GameContext.IsStartGame)
+            {
+                return;
+            }
+            OperationType? operationType;
             switch (e.Key)
             {
                 case Key.Up:
-                    GameContext.NativeGame?.Move(OperationType.Up);
+                    operationType = OperationType.Up;
                     break;
                 case Key.Down:
-                    GameContext.NativeGame?.Move(OperationType.Down);
+                    operationType = OperationType.Down;
                     break;
                 case Key.Left:
-                    GameContext.NativeGame?.Move(OperationType.Left);
+                    operationType = OperationType.Left;
                     break;
                 case Key.Right:
-                    GameContext.NativeGame?.Move(OperationType.Right);
+                    operationType = OperationType.Right;
                     break;
                 default:
+                    operationType = null;
                     break;
+            }
+            if (operationType != null)
+            {
+                //发送操作信息到远程端
+                if (serviceProxy != null)
+                {
+                    serviceProxy.OnlineUserMove(operationType.Value);
+                }
+                else
+                {
+                    GameContext.CallbackClient.Move(operationType.Value);
+                }
+                //操作本地端
+                GameContext.NativeGame.Move(operationType.Value);
             }
         }
 
         /// <summary>
-        /// 本机游戏地图初始化事件
+        /// 游戏地图初始化事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="map"></param>
@@ -225,7 +247,7 @@ namespace JigsawPuzzle.Wpf
             }
         }
         /// <summary>
-        /// 本机游戏地图初始化事件
+        /// 游戏地图初始化事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="map"></param>
@@ -241,12 +263,13 @@ namespace JigsawPuzzle.Wpf
             }
         }
         /// <summary>
-        /// 本机游戏结束事件
+        /// 游戏结束事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GameOver(object sender, EventArgs e)
         {
+            GameContext.IsStartGame = false;
             if ((string)sender == "native")
             {
                 MessageBox.Show("你赢了");
