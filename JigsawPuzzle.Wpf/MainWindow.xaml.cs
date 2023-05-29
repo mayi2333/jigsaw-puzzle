@@ -50,6 +50,8 @@ namespace JigsawPuzzle.Wpf
             EventBus.GameOverEvent += GameOver;
             //绑定加入游戏事件
             EventBus.JoinGameEvent += ClientJoinGameEvent;
+            //绑定准备事件
+            EventBus.ReadyEvent += GameReadyEvent;
             GameContext.IsStartGame = false;
         }
 
@@ -103,7 +105,15 @@ namespace JigsawPuzzle.Wpf
             {
                 var callbackInstance = new InstanceContext(new GameCallback());
                 serviceProxy = new WCFGameService.GameServiceClient(callbackInstance);
-                if (serviceProxy.State == CommunicationState.Created)
+                try
+                {
+                    serviceProxy.Open();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.InnerException.Message);
+                }
+                if (serviceProxy.State == CommunicationState.Opened)
                 {
                     string test = serviceProxy.Test1();
                     //string base64 = serviceProxy.JoinGame();
@@ -150,8 +160,11 @@ namespace JigsawPuzzle.Wpf
                 return;
             }
             GameContext.NativeGame = new Game("native");
-            var map = GameContext.NativeGame.InitMap();
-            GameContext.RemoteGame = new Game("remote", map);
+            int[,] map = GameContext.NativeGame.InitMap();
+            int mapSize = map.GetLength(0);
+            int[,] mapCopy = new int[mapSize, mapSize];
+            Array.Copy(map, mapCopy, map.Length);
+            GameContext.RemoteGame = new Game("remote", mapCopy);
             using (MemoryStream ms = new MemoryStream())
             {
                 System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
@@ -168,7 +181,7 @@ namespace JigsawPuzzle.Wpf
         /// <param name="e"></param>
         private void Ready_Click(object sender, RoutedEventArgs e)
         {
-            if (serviceProxy == null)
+            if (serviceProxy == null || serviceProxy.State == CommunicationState.Faulted)
             {
                 MessageBox.Show("请先加入游戏");
             }
@@ -206,7 +219,6 @@ namespace JigsawPuzzle.Wpf
                 GameContext.GridImageList = img.ToGridImages();
                 previewImg.Source = img.ToBitmapImage();
                 GameContext.GameImg = img;
-                img.Save("C:\\Users\\mayi\\Desktop\\123.png");
             }
         }
         private void MainWindows_Keydown(object sender, KeyEventArgs e)

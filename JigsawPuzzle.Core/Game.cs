@@ -37,6 +37,7 @@ namespace JigsawPuzzle.Core
             _map = map;
             _currentPoint = new CoordinatePoint(0, 0, 0);
             _gameOver = false;
+            EventBus.InitMapAfter?.Invoke(UserName, _map);
         }
         /// <summary>
         /// 初始化地图(此版本初始化算法有问题)

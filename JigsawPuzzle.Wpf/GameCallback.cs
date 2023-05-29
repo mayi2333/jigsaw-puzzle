@@ -23,7 +23,10 @@ namespace JigsawPuzzle.Wpf
             {
                 System.Runtime.Serialization.IFormatter f = new BinaryFormatter();
                 int[,] mapArray = f.Deserialize(ms) as int[,];
-                WCF.GameContext.RemoteGame = new Core.Game("remote", mapArray);
+                int mapSize = mapArray.GetLength(0);
+                int[,] mapCopy = new int[mapSize, mapSize];
+                Array.Copy(mapArray, mapCopy, mapArray.Length);
+                WCF.GameContext.RemoteGame = new Core.Game("remote", mapCopy);
                 WCF.GameContext.NativeGame = new Game("native", mapArray);
             }
             WCF.GameContext.IsStartGame = true;
